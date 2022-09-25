@@ -1,9 +1,6 @@
 package packages.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Getter
@@ -19,5 +16,12 @@ public class Toy {
     private Integer id;
 
     private String toyName;
+
+    @ManyToOne
+    @JoinTable(
+            name = "animal_toy",
+            joinColumns = @JoinColumn(name = "toy_id"),
+            inverseJoinColumns = @JoinColumn(name = "animal_id"))
+    private Animal animal;
 
 }

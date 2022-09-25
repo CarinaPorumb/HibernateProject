@@ -1,10 +1,10 @@
 package packages.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -20,4 +20,10 @@ public class Owner {
 
     private String name;
 
+    @ManyToMany(mappedBy = "owners", fetch = FetchType.EAGER)
+    private Set<Animal> animals = new HashSet<>();
+
+    public void addAnimalToOwner(Animal animal) {
+        animals.add(animal);
+    }
 }
