@@ -1,6 +1,7 @@
 package packages.dao;
 
 import packages.entity.Animal;
+import packages.exception.AnimalNotFound;
 
 import java.util.List;
 
@@ -12,7 +13,7 @@ public interface AnimalDAO {
 
     List<Animal> getAllAnimals();
 
-    Animal getAnimalById(int id) throws Exception;
+    Animal getAnimalById(int id) throws AnimalNotFound;
 
     Animal updateAnimalById(Animal animal);
 

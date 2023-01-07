@@ -2,7 +2,6 @@ package packages.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.util.HashSet;
 import java.util.Set;
 
@@ -10,7 +9,6 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @Entity
 public class Owner {
 
@@ -18,7 +16,11 @@ public class Owner {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    private String name;
+    private String ownerName;
+
+    public Owner(String ownerName) {
+        this.ownerName = ownerName;
+    }
 
     @ManyToMany(mappedBy = "owners", fetch = FetchType.EAGER)
     private Set<Animal> animals = new HashSet<>();

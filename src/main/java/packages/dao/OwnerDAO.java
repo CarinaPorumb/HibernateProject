@@ -1,6 +1,7 @@
 package packages.dao;
 
 import packages.entity.Owner;
+import packages.exception.OwnerNotFound;
 
 import java.util.List;
 
@@ -12,7 +13,7 @@ public interface OwnerDAO {
 
     List<Owner> getAllOwners();
 
-    Owner getOwnerById(int id);
+    Owner getOwnerById(int id) throws OwnerNotFound;
 
     Owner updateOwner(Owner owner);
 

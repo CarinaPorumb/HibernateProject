@@ -7,7 +7,6 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @Entity
 public class Toy {
 
@@ -17,6 +16,10 @@ public class Toy {
 
     private String toyName;
 
+    public Toy(String toyName) {
+        this.toyName = toyName;
+    }
+
     @ManyToOne
     @JoinTable(
             name = "animal_toy",
@@ -24,4 +27,13 @@ public class Toy {
             inverseJoinColumns = @JoinColumn(name = "animal_id"))
     private Animal animal;
 
+
+    @Override
+    public String toString() {
+        return "Toy{" +
+                "id=" + id +
+                ", toyName='" + toyName + '\'' +
+                ", animal=" + animal.getName() +
+                '}';
+    }
 }

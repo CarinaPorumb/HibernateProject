@@ -10,15 +10,15 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @Entity
+@ToString
 public class Animal {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @Column(name = "name", nullable = false, length = 50)
+    @Column(nullable = false)
     private String name;
 
     private Integer age;

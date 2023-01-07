@@ -7,10 +7,10 @@ import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import packages.entity.Animal;
+import packages.exception.AnimalNotFound;
 import packages.util.HibernateUtil;
 
 import java.util.List;
-
 
 public class AnimalDAOImpl implements AnimalDAO {
 
@@ -18,7 +18,6 @@ public class AnimalDAOImpl implements AnimalDAO {
     private final SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
     private Session session;
     private Transaction transaction;
-
 
     @Override
     public void createAnimal(Animal animal) {
@@ -47,17 +46,18 @@ public class AnimalDAOImpl implements AnimalDAO {
         openSessionAndTransaction();
         Query query = session.createQuery(hql);
         List<Animal> animals = query.list();
+        closeSessionAndTransaction();
         return animals;
     }
 
     @Override
-    public Animal getAnimalById(int id) throws Exception {
+    public Animal getAnimalById(int id) throws AnimalNotFound {
         LOGGER.info("Getting animals with id: {}.", id);
         session = sessionFactory.openSession();
         Animal animal = session.get(Animal.class, id);
         session.close();
         if (animal == null) {
-            throw new Exception("Animal id not found!");
+            throw new AnimalNotFound();
         }
         LOGGER.info("Found animal: {}.", animal);
         return animal;
@@ -90,6 +90,7 @@ public class AnimalDAOImpl implements AnimalDAO {
         session = sessionFactory.openSession();
         transaction = session.beginTransaction();
     }
+
     private void closeSessionAndTransaction() {
         transaction.commit();
         session.close();
