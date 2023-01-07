@@ -26,11 +26,11 @@ public class App {
         Faker faker = new Faker();
         OwnerDAO ownerDAO = new OwnerDAOImpl();
 
-        Animal animal = new Animal();
-        animal.setName("Rocco");
-        animal.setAge(2);
-        animal.setWeight(5);
-        animals.add(animal);
+        Animal animal1 = new Animal();
+        animal1.setName("Rocco");
+        animal1.setAge(2);
+        animal1.setWeight(5);
+        animals.add(animal1);
 
         Animal animal2 = new Animal();
         animal2.setName("Lady");
@@ -41,7 +41,6 @@ public class App {
         HealthCertificate hc = new HealthCertificate();
         hc.setType("Travel Health Certificate");
         hc.setPrice(faker.number().randomDigitNotZero());
-        hc.setAnimal(animal);
 
         animals.forEach(anm -> anm.setHealthCertificate(hc));
 
