@@ -10,34 +10,58 @@ import packages.entity.HealthCertificate;
 import packages.entity.Owner;
 import packages.entity.Toy;
 
-public class App {
-    public static void main(String[] args) {
+import java.util.HashSet;
+import java.util.Set;
 
+public class App {
+
+    public static void main(String[] args) {
         AnimalDAO animal = new AnimalDAOImpl();
-        animal.createAnimal(createAnimal());
+        animal.createAnimals(createAnimal());
 
     }
 
-    public static Animal createAnimal() {
+    public static Set<Animal> createAnimal() {
+        Set<Animal> animals = new HashSet<>();
         Faker faker = new Faker();
-        OwnerDAO owner = new OwnerDAOImpl();
+        OwnerDAO ownerDAO = new OwnerDAOImpl();
+
         Animal animal = new Animal();
-        animal.setName(faker.funnyName().name());
-        animal.setAge(faker.number().numberBetween(1, 15));
-        animal.setWeight(faker.number().randomDigit());
+        animal.setName("Rocco");
+        animal.setAge(2);
+        animal.setWeight(5);
+        animals.add(animal);
+
+        Animal animal2 = new Animal();
+        animal2.setName("Lady");
+        animal2.setAge(2);
+        animal2.setWeight(4);
+        animals.add(animal2);
 
         HealthCertificate hc = new HealthCertificate();
         hc.setType("Travel Health Certificate");
         hc.setPrice(faker.number().randomDigitNotZero());
         hc.setAnimal(animal);
-        animal.setHealthCertificate(hc);
 
-        animal.addToyToAnimal(new Toy(faker.superhero().name()));
-        animal.addToyToAnimal(new Toy(faker.superhero().name()));
+        animals.forEach(anm -> anm.setHealthCertificate(hc));
 
-        animal.addOwnerToAnimal(owner.createOwnerAndReturnIt(new Owner(faker.name().fullName())));
-        animal.addOwnerToAnimal(owner.createOwnerAndReturnIt(new Owner(faker.name().name())));
-        animal.addOwnerToAnimal(owner.createOwnerAndReturnIt(new Owner(faker.funnyName().name())));
-        return animal;
+        animals.forEach(elem -> {
+            elem.addToyToAnimal(new Toy(faker.superhero().name()));
+            elem.addToyToAnimal(new Toy(faker.superhero().name()));
+        });
+
+        Owner owner1 = ownerDAO.createOwnerAndReturnIt(new Owner(faker.funnyName().name()));
+        Owner owner2 = ownerDAO.createOwnerAndReturnIt(new Owner(faker.funnyName().name()));
+        Owner owner3 = ownerDAO.createOwnerAndReturnIt(new Owner(faker.funnyName().name()));
+        Owner owner4 = ownerDAO.createOwnerAndReturnIt(new Owner(faker.funnyName().name()));
+
+        animals.forEach(elem -> {
+            elem.addOwnerToAnimal(owner3);
+            elem.addOwnerToAnimal(owner4);
+            elem.addOwnerToAnimal(owner2);
+            elem.addOwnerToAnimal(owner1);
+        });
+
+        return animals;
     }
 }

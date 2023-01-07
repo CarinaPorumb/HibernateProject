@@ -11,6 +11,7 @@ import packages.exception.AnimalNotFound;
 import packages.util.HibernateUtil;
 
 import java.util.List;
+import java.util.Set;
 
 public class AnimalDAOImpl implements AnimalDAO {
 
@@ -26,6 +27,17 @@ public class AnimalDAOImpl implements AnimalDAO {
         session.persist(animal);
         closeSessionAndTransaction();
         LOGGER.info("Animal {} was created.", animal);
+    }
+
+    @Override
+    public void createAnimals(Set<Animal> animals) {
+        LOGGER.info("Creating animals: ");
+        openSessionAndTransaction();
+        for (Animal anm : animals) {
+            session.persist(anm);
+        }
+        closeSessionAndTransaction();
+        LOGGER.info("Animals {} was created.", animals);
     }
 
     @Override
