@@ -1,4 +1,4 @@
-package packages.dao;
+package project.dao;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -6,9 +6,9 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import packages.entity.Owner;
-import packages.exception.OwnerNotFound;
-import packages.util.HibernateUtil;
+import project.entity.Owner;
+import project.exception.OwnerNotFound;
+import project.util.HibernateUtil;
 
 import java.util.List;
 import java.util.Optional;

@@ -1,4 +1,4 @@
-package packages.exception;
+package project.exception;
 
 public class OwnerNotFound extends Exception {
 

@@ -1,4 +1,4 @@
-package packages.dao;
+package project.dao;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -6,12 +6,11 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import packages.entity.Animal;
-import packages.exception.AnimalNotFound;
-import packages.util.HibernateUtil;
+import project.entity.Animal;
+import project.exception.AnimalNotFound;
+import project.util.HibernateUtil;
 
 import java.util.List;
-import java.util.Set;
 
 public class AnimalDAOImpl implements AnimalDAO {
 
@@ -30,12 +29,10 @@ public class AnimalDAOImpl implements AnimalDAO {
     }
 
     @Override
-    public void createAnimals(Set<Animal> animals) {
+    public void createAnimals(List<Animal> animals) {
         LOGGER.info("Creating animals: ");
         openSessionAndTransaction();
-        for (Animal anm : animals) {
-            session.persist(anm);
-        }
+        animals.forEach(animal -> session.persist(animal));
         closeSessionAndTransaction();
         LOGGER.info("Animals {} was created.", animals);
     }
@@ -54,11 +51,12 @@ public class AnimalDAOImpl implements AnimalDAO {
     @Override
     public List<Animal> getAllAnimals() {
         LOGGER.info("Getting all animals: ");
-        String hql = "from animal";
-        openSessionAndTransaction();
+        Session session = sessionFactory.openSession();
+        String hql = "from Animal";
         Query query = session.createQuery(hql);
         List<Animal> animals = query.list();
-        closeSessionAndTransaction();
+        session.close();
+        LOGGER.info("Found animals: {} .", animals);
         return animals;
     }
 

@@ -1,28 +1,27 @@
-package packages;
+package project;
 
 import com.github.javafaker.Faker;
-import packages.dao.AnimalDAO;
-import packages.dao.AnimalDAOImpl;
-import packages.dao.OwnerDAO;
-import packages.dao.OwnerDAOImpl;
-import packages.entity.Animal;
-import packages.entity.HealthCertificate;
-import packages.entity.Owner;
-import packages.entity.Toy;
+import project.dao.AnimalDAO;
+import project.dao.AnimalDAOImpl;
+import project.dao.OwnerDAO;
+import project.dao.OwnerDAOImpl;
+import project.entity.Animal;
+import project.entity.HealthCertificate;
+import project.entity.Owner;
+import project.entity.Toy;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 public class App {
 
     public static void main(String[] args) {
         AnimalDAO animal = new AnimalDAOImpl();
         animal.createAnimals(createAnimal());
-
     }
 
-    public static Set<Animal> createAnimal() {
-        Set<Animal> animals = new HashSet<>();
+    public static List<Animal> createAnimal() {
+        List<Animal> animals = new ArrayList<>();
         Faker faker = new Faker();
         OwnerDAO ownerDAO = new OwnerDAOImpl();
 
@@ -38,11 +37,12 @@ public class App {
         animal2.setWeight(4);
         animals.add(animal2);
 
-        HealthCertificate hc = new HealthCertificate();
-        hc.setType("Travel Health Certificate");
-        hc.setPrice(faker.number().randomDigitNotZero());
-
-        animals.forEach(anm -> anm.setHealthCertificate(hc));
+        for (Animal animal : animals) {
+            HealthCertificate hc = new HealthCertificate();
+            hc.setType("Travel Health Certificate");
+            hc.setPrice(faker.number().randomDigitNotZero());
+            animal.setHealthCertificate(hc);
+        }
 
         animals.forEach(elem -> {
             elem.addToyToAnimal(new Toy(faker.superhero().name()));

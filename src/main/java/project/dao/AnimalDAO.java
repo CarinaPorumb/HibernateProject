@@ -1,16 +1,15 @@
-package packages.dao;
+package project.dao;
 
-import packages.entity.Animal;
-import packages.exception.AnimalNotFound;
+import project.entity.Animal;
+import project.exception.AnimalNotFound;
 
 import java.util.List;
-import java.util.Set;
 
 public interface AnimalDAO {
 
     void createAnimal(Animal animal);
 
-    public void createAnimals(Set<Animal> animals);
+    void createAnimals(List<Animal> animals);
 
     Animal createAnimalAndReturnIt(Animal animal);
 

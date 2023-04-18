@@ -1,7 +1,7 @@
-package packages.dao;
+package project.dao;
 
-import packages.entity.Owner;
-import packages.exception.OwnerNotFound;
+import project.entity.Owner;
+import project.exception.OwnerNotFound;
 
 import java.util.List;
 

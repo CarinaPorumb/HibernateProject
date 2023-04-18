@@ -1,7 +1,8 @@
-package packages.entity;
+package project.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -9,6 +10,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 @Entity
 public class Owner {
 
@@ -22,10 +24,12 @@ public class Owner {
         this.ownerName = ownerName;
     }
 
+    @ToString.Exclude
     @ManyToMany(mappedBy = "owners", fetch = FetchType.EAGER)
     private Set<Animal> animals = new HashSet<>();
 
     public void addAnimalToOwner(Animal animal) {
         animals.add(animal);
     }
+
 }

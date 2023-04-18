@@ -20,10 +20,10 @@
         <property name="hibernate.dbcp.minIdle">5</property>
         <property name="hibernate.dbcp.maxWaitMillis">-1</property>
 
-        <mapping class="packages.entity.Animal"/>
-        <mapping class="packages.entity.HealthCertificate"/>
-        <mapping class="packages.entity.Owner"/>
-        <mapping class="packages.entity.Toy"/>
+        <mapping class="project.entity.Animal"/>
+        <mapping class="project.entity.HealthCertificate"/>
+        <mapping class="project.entity.Owner"/>
+        <mapping class="project.entity.Toy"/>
 
     </session-factory>
 </hibernate-configuration>
