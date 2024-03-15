@@ -1,9 +1,8 @@
 package project;
 
-import com.github.javafaker.Faker;
-import project.dao.AnimalDAO;
+import net.datafaker.Faker;
 import project.dao.AnimalDAOImpl;
-import project.dao.OwnerDAO;
+import project.dao.EntityDAO;
 import project.dao.OwnerDAOImpl;
 import project.entity.Animal;
 import project.entity.HealthCertificate;
@@ -16,51 +15,73 @@ import java.util.List;
 public class App {
 
     public static void main(String[] args) {
-        AnimalDAO animal = new AnimalDAOImpl();
-        animal.createAnimals(createAnimal());
+        EntityDAO<Animal, Integer> animal = new AnimalDAOImpl();
+        animal.createAll(createAnimal());
+
     }
 
     public static List<Animal> createAnimal() {
+
         List<Animal> animals = new ArrayList<>();
         Faker faker = new Faker();
-        OwnerDAO ownerDAO = new OwnerDAOImpl();
+        EntityDAO<Owner, Integer> owner = new OwnerDAOImpl();
 
-        Animal animal1 = new Animal();
-        animal1.setName("Rocco");
-        animal1.setAge(2);
-        animal1.setWeight(5);
-        animals.add(animal1);
+        Animal rocco = Animal.builder()
+                .name("Rocco")
+                .age(2)
+                .weight(4)
+                .healthCertificate(HealthCertificate.builder()
+                        .type("Travel Health Certificate")
+                        .price(faker.number().randomDigitNotZero())
+                        .build())
+                .build();
 
-        Animal animal2 = new Animal();
-        animal2.setName("Lady");
-        animal2.setAge(2);
-        animal2.setWeight(4);
-        animals.add(animal2);
+        Animal lady = Animal.builder()
+                .name("Lady")
+                .age(2)
+                .weight(4)
+                .healthCertificate(HealthCertificate.builder()
+                        .type("Domestic Health Certificate")
+                        .price(faker.number().randomDigitNotZero())
+                        .build())
+                .build();
 
-        for (Animal animal : animals) {
-            HealthCertificate hc = new HealthCertificate();
-            hc.setType("Travel Health Certificate");
-            hc.setPrice(faker.number().randomDigitNotZero());
-            animal.setHealthCertificate(hc);
-        }
+        animals.add(rocco);
+        animals.add(lady);
 
-        animals.forEach(elem -> {
-            elem.addToyToAnimal(new Toy(faker.superhero().name()));
-            elem.addToyToAnimal(new Toy(faker.superhero().name()));
-        });
-
-        Owner owner1 = ownerDAO.createOwnerAndReturnIt(new Owner(faker.funnyName().name()));
-        Owner owner2 = ownerDAO.createOwnerAndReturnIt(new Owner(faker.funnyName().name()));
-        Owner owner3 = ownerDAO.createOwnerAndReturnIt(new Owner(faker.funnyName().name()));
-        Owner owner4 = ownerDAO.createOwnerAndReturnIt(new Owner(faker.funnyName().name()));
 
         animals.forEach(elem -> {
-            elem.addOwnerToAnimal(owner3);
-            elem.addOwnerToAnimal(owner4);
-            elem.addOwnerToAnimal(owner2);
-            elem.addOwnerToAnimal(owner1);
+            Toy toy1 = Toy.builder()
+                    .toyName(faker.superhero().name())
+                    .animal(elem)
+                    .build();
+
+            Toy toy2 = Toy.builder()
+                    .toyName(faker.superhero().name())
+                    .animal(elem)
+                    .build();
+
+            elem.addToyToAnimal(toy1);
+            elem.addToyToAnimal(toy2);
         });
+
+
+        Owner owner1 = owner.createAndReturnIt(Owner.builder().ownerName(faker.funnyName().name()).build());
+        Owner owner2 = owner.createAndReturnIt(Owner.builder().ownerName(faker.funnyName().name()).build());
+        Owner owner3 = owner.createAndReturnIt(Owner.builder().ownerName(faker.funnyName().name()).build());
+        Owner owner4 = owner.createAndReturnIt(Owner.builder().ownerName(faker.funnyName().name()).build());
+
+        rocco.addOwnerToAnimal(owner1);
+        rocco.addOwnerToAnimal(owner2);
+        owner1.getAnimals().add(rocco);
+        owner2.getAnimals().add(rocco);
+
+        lady.addOwnerToAnimal(owner3);
+        lady.addOwnerToAnimal(owner4);
+        owner3.getAnimals().add(lady);
+        owner4.getAnimals().add(lady);
 
         return animals;
     }
+
 }
